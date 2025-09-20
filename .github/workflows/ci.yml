@@ -20,5 +20,7 @@ jobs:
           poetry run black --check .
           poetry run isort --check-only .
           poetry run mypy .
+      - name: Validate schema bank
+        run: poetry run sv schemas validate
       - name: Tests
         run: poetry run pytest -q
