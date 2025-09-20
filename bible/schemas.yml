@@ -1,10 +1,340 @@
+version: "0.1.0"
 schemas:
   - id: container
+    title: "Container"
+    definition: "An inside bounded by a boundary, enabling entry/exit and holding content."
+    roles: [container, content, boundary]
     params:
-      in_out: [in, out]
-      pressure: [low, high]
+      openness: {type: float, min: 0.0, max: 1.0, default: 0.25}
+      pressure: {type: enum, values: [low, medium, high], default: low}
+      permeability: {type: float, min: 0.0, max: 1.0, default: 0.3}
+    affect: {valence: 0.0, arousal: 0.5, threat: 0.2, comfort: 0.4, warmth: 0.2}
+    lexicon:
+      en: [{lemma: "inside", w: 0.9}, {lemma: "room", w: 0.6}, {lemma: "jar", w: 0.5}, {lemma: "sealed", w: 0.7}, {lemma: "box", w: 0.5}, {lemma: "within", w: 0.8}]
+      fa: [{lemma: "درون", w: 0.9}, {lemma: "اتاق", w: 0.6}, {lemma: "محصور", w: 0.7}, {lemma: "ظرف", w: 0.6}, {lemma: "درونِ", w: 0.8}]
+    coactivate: [path, boundary, blockage]
+    examples:
+      text: ["she breathes inside the small room", "a sealed jar hums on the table"]
+      visual: ["door ajar; low camera at threshold"]
+    provenance: {source: "SV_Extended v0.1; Project Brief motifs", curator: "Mahyar", license: "CC-BY", confidence: 0.85}
+
   - id: path
+    title: "Path"
+    definition: "Directed movement from a source to a goal along a traversable route."
+    roles: [traveler, source, route, goal]
     params:
-      source: ""
-      goal: ""
-      progress: 0.0
+      progress: {type: float, min: 0.0, max: 1.0, default: 0.1}
+      difficulty: {type: enum, values: [easy, moderate, hard], default: moderate}
+      curvature: {type: float, min: 0.0, max: 1.0, default: 0.4}
+    affect: {valence: 0.1, arousal: 0.6, tension: 0.4}
+    lexicon:
+      en: [{lemma: "toward", w: 0.8}, {lemma: "across", w: 0.6}, {lemma: "stairs", w: 0.8}, {lemma: "corridor", w: 0.7}, {lemma: "tunnel", w: 0.8}]
+      fa: [{lemma: "به‌سوی", w: 0.8}, {lemma: "از روی", w: 0.6}, {lemma: "پله", w: 0.8}, {lemma: "راهرو", w: 0.7}, {lemma: "تونل", w: 0.8}]
+    coactivate: [boundary, source_path_goal, center_periphery]
+    examples:
+      text: ["we climb the narrow stairs toward the hush", "she walks across the corridor of glass"]
+      visual: ["stairs; tunnel; corridor vanishing point"]
+    provenance: {source: "SV_Extended v0.1; World gates", curator: "Mahyar", license: "CC-BY", confidence: 0.86}
+
+  - id: source_path_goal
+    title: "Source–Path–Goal"
+    definition: "A trajectory schema specifying origin, route, and destination as a single gestalt."
+    roles: [agent, source, path, goal, obstacles]
+    params:
+      temporality: {type: float, min: 0.0, max: 1.0, default: 0.5}
+      certainty: {type: float, min: 0.0, max: 1.0, default: 0.5}
+    affect: {valence: 0.2, arousal: 0.55, tension: 0.35}
+    lexicon:
+      en: [{lemma: "from", w: 0.9}, {lemma: "to", w: 0.9}, {lemma: "until", w: 0.8}, {lemma: "arrive", w: 0.7}, {lemma: "depart", w: 0.7}]
+      fa: [{lemma: "از", w: 0.9}, {lemma: "تا", w: 0.9}, {lemma: "به", w: 0.9}, {lemma: "رسیدن", w: 0.7}, {lemma: "حرکت", w: 0.7}]
+    coactivate: [path, blockage, force_dynamics]
+    examples:
+      text: ["from shadow to breath, down the stair", "تا مرزِ روشن، از دلِ اتاق"]
+      visual: ["signage: FROM→TO; milestone markers"]
+    provenance: {source: "Curator; Persian ‘تا’ cue", curator: "Mahyar", license: "CC-BY", confidence: 0.84}
+
+  - id: link
+    title: "Link"
+    definition: "Two or more entities connected by a tie, hinge, or dependency."
+    roles: [nodes, link, medium]
+    params:
+      strength: {type: float, min: 0.0, max: 1.0, default: 0.6}
+      directionality: {type: enum, values: [none, uni, bi], default: bi}
+    affect: {valence: 0.1, arousal: 0.4, warmth: 0.2}
+    lexicon:
+      en: [{lemma: "link", w: 0.8}, {lemma: "chain", w: 0.7}, {lemma: "bridge", w: 0.7}, {lemma: "hinge", w: 0.6}, {lemma: "bond", w: 0.7}]
+      fa: [{lemma: "پیوند", w: 0.9}, {lemma: "زنجیر", w: 0.7}, {lemma: "پل", w: 0.7}, {lemma: "لولا", w: 0.6}, {lemma: "رابطه", w: 0.7}]
+    coactivate: [part_whole, path, attraction_repulsion]
+    examples:
+      text: ["the key links tongue to door", "پیوندِ نفس و نور در راهرو"]
+      visual: ["chain; bridge span; door hinge close-up"]
+    provenance: {source: "Curator", curator: "Mahyar", license: "CC-BY", confidence: 0.8}
+
+  - id: center_periphery
+    title: "Center–Periphery"
+    definition: "Attention and value radiate from a salient center into a graded surround."
+    roles: [center, periphery, gradient]
+    params:
+      focus: {type: float, min: 0.0, max: 1.0, default: 0.7}
+      falloff: {type: float, min: 0.0, max: 1.0, default: 0.5}
+    affect: {valence: 0.0, arousal: 0.45, tension: 0.2}
+    lexicon:
+      en: [{lemma: "center", w: 0.9}, {lemma: "edge", w: 0.7}, {lemma: "margin", w: 0.6}, {lemma: "focus", w: 0.8}, {lemma: "outskirts", w: 0.6}]
+      fa: [{lemma: "مرکز", w: 0.9}, {lemma: "پیرامون", w: 0.8}, {lemma: "حاشیه", w: 0.7}, {lemma: "کانون", w: 0.8}, {lemma: "لبه", w: 0.6}]
+    coactivate: [scale, boundary, balance]
+    examples:
+      text: ["a small breath at the center, noise at the edges", "کانونِ سایه میانِ دیوار"]
+      visual: ["vignette; spotlight pool"]
+    provenance: {source: "Curator", curator: "Mahyar", license: "CC-BY", confidence: 0.8}
+
+  - id: verticality
+    title: "Verticality"
+    definition: "Experience structured along a down–up axis tied to gravity and status."
+    roles: [low, mid, high, axis]
+    params:
+      tilt_deg: {type: float, min: -90, max: 90, default: 0, unit: "deg"}
+      elevation: {type: float, min: 0.0, max: 1.0, default: 0.5}
+    affect: {valence: 0.1, arousal: 0.55, tension: 0.3}
+    lexicon:
+      en: [{lemma: "rise", w: 0.8}, {lemma: "fall", w: 0.8}, {lemma: "upstairs", w: 0.7}, {lemma: "down", w: 0.8}, {lemma: "height", w: 0.6}]
+      fa: [{lemma: "بالا", w: 0.9}, {lemma: "پایین", w: 0.9}, {lemma: "بالارفتن", w: 0.7}, {lemma: "سقوط", w: 0.7}, {lemma: "ارتفاع", w: 0.6}]
+    coactivate: [up_down, balance, path]
+    examples:
+      text: ["the shadow climbs one step and grins", "سایه از پله بالا می‌رود"]
+      visual: ["stair risers; low camera looking up"]
+    provenance: {source: "Curator; Poem echo", curator: "Mahyar", license: "CC-BY", confidence: 0.82}
+
+  - id: front_back
+    title: "Front–Back"
+    definition: "Orientation schema partitioning space into forward (facing) and behind."
+    roles: [front, back, facing, occluder]
+    params:
+      facing_stability: {type: float, min: 0.0, max: 1.0, default: 0.6}
+    affect: {valence: 0.0, arousal: 0.4, tension: 0.25}
+    lexicon:
+      en: [{lemma: "front", w: 0.8}, {lemma: "behind", w: 0.8}, {lemma: "face", w: 0.7}, {lemma: "back", w: 0.7}, {lemma: "turn", w: 0.6}]
+      fa: [{lemma: "جلو", w: 0.9}, {lemma: "پشت", w: 0.9}, {lemma: "روبه‌رو", w: 0.7}, {lemma: "برگشتن", w: 0.6}]
+    coactivate: [contact, blockage, center_periphery]
+    examples:
+      text: ["the door faces me, the memory behind it", "پشتِ در، نفسِ مانده"]
+      visual: ["profile vs back view; door facing camera"]
+    provenance: {source: "Curator", curator: "Mahyar", license: "CC-BY", confidence: 0.78}
+
+  - id: near_far
+    title: "Near–Far"
+    definition: "Distance modulates salience, clarity, and urgency along a depth axis."
+    roles: [observer, near_field, far_field]
+    params:
+      depth: {type: float, min: 0.0, max: 1.0, default: 0.5}
+      haze: {type: float, min: 0.0, max: 1.0, default: 0.3}
+    affect: {valence: 0.0, arousal: 0.45, tension: 0.2}
+    lexicon:
+      en: [{lemma: "near", w: 0.9}, {lemma: "close", w: 0.7}, {lemma: "far", w: 0.9}, {lemma: "distant", w: 0.7}, {lemma: "approach", w: 0.7}]
+      fa: [{lemma: "نزدیک", w: 0.9}, {lemma: "دور", w: 0.9}, {lemma: "نزدیکی", w: 0.7}, {lemma: "فاصله", w: 0.7}]
+    coactivate: [path, scale, center_periphery]
+    examples:
+      text: ["a cart rattles from beyond the wall", "چرخ‌دستی از دیوار می‌گذرد"]
+      visual: ["depth of field; receding alleys"]
+    provenance: {source: "Curator; Poem echo", curator: "Mahyar", license: "CC-BY", confidence: 0.8}
+
+  - id: up_down
+    title: "Up–Down"
+    definition: "Binary vertical opposition tracking lift vs. drop and energy cost."
+    roles: [up, down, gravity]
+    params:
+      effort: {type: enum, values: [low, medium, high], default: medium}
+    affect: {valence: 0.05, arousal: 0.5, tension: 0.25}
+    lexicon:
+      en: [{lemma: "up", w: 0.9}, {lemma: "down", w: 0.9}, {lemma: "lift", w: 0.7}, {lemma: "fall", w: 0.8}, {lemma: "drop", w: 0.7}]
+      fa: [{lemma: "بالا", w: 0.9}, {lemma: "پایین", w: 0.9}, {lemma: "بالاکشیدن", w: 0.6}, {lemma: "افتادن", w: 0.7}]
+    coactivate: [verticality, balance]
+    examples:
+      text: ["the handle sinks as weight finds it", "دستگیره پایین می‌رود"]
+      visual: ["falling dust; rising breath plume"]
+    provenance: {source: "Curator", curator: "Mahyar", license: "CC-BY", confidence: 0.77}
+
+  - id: balance
+    title: "Balance"
+    definition: "Equilibrium under competing forces, sensitive to tilt and load."
+    roles: [support, load, fulcrum]
+    params:
+      tilt: {type: float, min: -1.0, max: 1.0, default: 0.0}
+      load: {type: float, min: 0.0, max: 1.0, default: 0.4}
+    affect: {valence: 0.2, arousal: 0.45, tension: 0.3}
+    lexicon:
+      en: [{lemma: "balance", w: 0.9}, {lemma: "tilt", w: 0.7}, {lemma: "steady", w: 0.7}, {lemma: "wobble", w: 0.6}, {lemma: "lean", w: 0.6}]
+      fa: [{lemma: "تعادل", w: 0.9}, {lemma: "کژ", w: 0.6}, {lemma: "ثبات", w: 0.7}, {lemma: "لغزش", w: 0.6}, {lemma: "کج‌شدن", w: 0.6}]
+    coactivate: [force_dynamics, verticality, surface]
+    examples:
+      text: ["keys weigh the pocket, the door decides", "کلیدها وزنِ جیب را کج می‌کنند"]
+      visual: ["spirit level bubble; swaying chain"]
+    provenance: {source: "Curator", curator: "Mahyar", license: "CC-BY", confidence: 0.79}
+
+  - id: force_dynamics
+    title: "Force Dynamics"
+    definition: "Interaction of agonist and antagonist forces producing motion or restraint."
+    roles: [agonist, antagonist, resultant]
+    params:
+      pressure: {type: float, min: 0.0, max: 1.0, default: 0.5}
+      friction: {type: float, min: 0.0, max: 1.0, default: 0.4}
+    affect: {valence: 0.0, arousal: 0.65, tension: 0.6, threat: 0.3}
+    lexicon:
+      en: [{lemma: "push", w: 0.8}, {lemma: "pull", w: 0.8}, {lemma: "resist", w: 0.7}, {lemma: "yield", w: 0.6}, {lemma: "pressure", w: 0.7}]
+      fa: [{lemma: "فشار", w: 0.9}, {lemma: "کشش", w: 0.8}, {lemma: "مقاومت", w: 0.8}, {lemma: "رانش", w: 0.6}, {lemma: "واگذاری", w: 0.6}]
+    coactivate: [blockage, attraction_repulsion, balance]
+    examples:
+      text: ["wind presses; the door yields a finger", "باد فشار می‌آورد و در وا می‌دهد"]
+      visual: ["straining hinge; taut rope"]
+    provenance: {source: "Curator; Vital-relations lens", curator: "Mahyar", license: "CC-BY", confidence: 0.82}
+
+  - id: blockage
+    title: "Blockage"
+    definition: "A barrier interrupts flow or movement until overcome or rerouted."
+    roles: [agent, barrier, bypass]
+    params:
+      hardness: {type: float, min: 0.0, max: 1.0, default: 0.7}
+      leak: {type: float, min: 0.0, max: 1.0, default: 0.2}
+    affect: {valence: -0.2, arousal: 0.6, tension: 0.6, threat: 0.3}
+    lexicon:
+      en: [{lemma: "blocked", w: 0.8}, {lemma: "stuck", w: 0.8}, {lemma: "wall", w: 0.7}, {lemma: "clog", w: 0.6}, {lemma: "jam", w: 0.6}]
+      fa: [{lemma: "انسداد", w: 0.9}, {lemma: "مانع", w: 0.8}, {lemma: "گیر", w: 0.7}, {lemma: "دیوار", w: 0.7}, {lemma: "گرفتگی", w: 0.6}]
+    coactivate: [force_dynamics, path, boundary]
+    examples:
+      text: ["air has no passage; leaves say no and yes", "راهِ عبورِ هوا بند آمده است"]
+      visual: ["tight corridor; locked gate"]
+    provenance: {source: "Curator; Poem echo", curator: "Mahyar", license: "CC-BY", confidence: 0.83}
+
+  - id: attraction_repulsion
+    title: "Attraction–Repulsion"
+    definition: "Entities exert pull or push causing approach, cling, or withdrawal."
+    roles: [source, target, field]
+    params:
+      polarity: {type: enum, values: [attract, repel, mixed], default: mixed}
+      intensity: {type: float, min: 0.0, max: 1.0, default: 0.5}
+    affect: {valence: 0.0, arousal: 0.6, tension: 0.5}
+    lexicon:
+      en: [{lemma: "draw", w: 0.7}, {lemma: "cling", w: 0.7}, {lemma: "pull", w: 0.8}, {lemma: "push", w: 0.8}, {lemma: "avoid", w: 0.7}]
+      fa: [{lemma: "جذب", w: 0.9}, {lemma: "دفع", w: 0.9}, {lemma: "چسبیدن", w: 0.7}, {lemma: "کشیدن", w: 0.7}, {lemma: "پرهیز", w: 0.7}]
+    coactivate: [contact, link, force_dynamics]
+    examples:
+      text: ["unknown hands cling to shoulders", "دست‌های ناشناس به شانه می‌چسبند"]
+      visual: ["magnet; static-clung fabric"]
+    provenance: {source: "Curator", curator: "Mahyar", license: "CC-BY", confidence: 0.78}
+
+  - id: part_whole
+    title: "Part–Whole"
+    definition: "Constituents integrate into a larger unity with membership rules."
+    roles: [whole, part, boundary_of_member]
+    params:
+      cohesion: {type: float, min: 0.0, max: 1.0, default: 0.6}
+      completeness: {type: float, min: 0.0, max: 1.0, default: 0.7}
+    affect: {valence: 0.2, arousal: 0.45, warmth: 0.2}
+    lexicon:
+      en: [{lemma: "part", w: 0.8}, {lemma: "whole", w: 0.8}, {lemma: "fragment", w: 0.7}, {lemma: "assemble", w: 0.7}, {lemma: "cluster", w: 0.6}]
+      fa: [{lemma: "جزء", w: 0.9}, {lemma: "کل", w: 0.9}, {lemma: "پاره", w: 0.7}, {lemma: "گردآوری", w: 0.6}, {lemma: "خوشه", w: 0.6}]
+    coactivate: [cycle, link, center_periphery]
+    examples:
+      text: ["rings count themselves; something is missing", "حلقه‌ها خود را می‌شمارند و چیزی کم است"]
+      visual: ["broken ring; mosaic assembly"]
+    provenance: {source: "Curator; Vital-relations", curator: "Mahyar", license: "CC-BY", confidence: 0.82}
+
+  - id: cycle
+    title: "Cycle"
+    definition: "Recurrent phases return with variation over a temporal loop."
+    roles: [phase, transition, loop]
+    params:
+      period_s: {type: float, min: 0.1, max: 1e6, default: 60, unit: "s"}
+      regularity: {type: float, min: 0.0, max: 1.0, default: 0.5}
+    affect: {valence: 0.1, arousal: 0.5, tension: 0.25}
+    lexicon:
+      en: [{lemma: "again", w: 0.8}, {lemma: "loop", w: 0.7}, {lemma: "return", w: 0.7}, {lemma: "repeat", w: 0.7}, {lemma: "season", w: 0.6}]
+      fa: [{lemma: "چرخه", w: 0.9}, {lemma: "بازگشت", w: 0.8}, {lemma: "تکرار", w: 0.8}, {lemma: "فصل", w: 0.6}, {lemma: "دوباره", w: 0.7}]
+    coactivate: [part_whole, path, scale]
+    examples:
+      text: ["the street begins from elsewhere again", "خیابان از جای دیگری دوباره شروع می‌شود"]
+      visual: ["looping footsteps; clock sweep"]
+    provenance: {source: "Curator; Project cadence", curator: "Mahyar", license: "CC-BY", confidence: 0.79}
+
+  - id: surface
+    title: "Surface"
+    definition: "A contactable skin where textures, marks, and residues register."
+    roles: [substrate, mark, medium]
+    params:
+      roughness: {type: float, min: 0.0, max: 1.0, default: 0.5}
+      reflectance: {type: float, min: 0.0, max: 1.0, default: 0.3}
+    affect: {valence: 0.05, arousal: 0.45, warmth: 0.1}
+    lexicon:
+      en: [{lemma: "surface", w: 0.9}, {lemma: "skin", w: 0.7}, {lemma: "scratch", w: 0.7}, {lemma: "mirror", w: 0.6}, {lemma: "smudge", w: 0.6}]
+      fa: [{lemma: "سطح", w: 0.9}, {lemma: "پوست", w: 0.7}, {lemma: "خراش", w: 0.7}, {lemma: "آیینه", w: 0.6}, {lemma: "لکه", w: 0.6}]
+    coactivate: [contact, boundary, center_periphery]
+    examples:
+      text: ["the glass counts our breath as fog", "بخار نفس روی شیشه می‌نشیند"]
+      visual: ["handprint on glass; smeared mirror"]
+    provenance: {source: "Curator; ‘residue’ rule", curator: "Mahyar", license: "CC-BY", confidence: 0.82}
+
+  - id: contact
+    title: "Contact"
+    definition: "Touch establishes interaction across surfaces, enabling transfer or change."
+    roles: [actor, target, interface]
+    params:
+      duration_s: {type: float, min: 0.0, max: 300.0, default: 1.0, unit: "s"}
+      pressure: {type: float, min: 0.0, max: 1.0, default: 0.4}
+    affect: {valence: 0.1, arousal: 0.55, warmth: 0.2, tension: 0.25}
+    lexicon:
+      en: [{lemma: "touch", w: 0.9}, {lemma: "press", w: 0.7}, {lemma: "grip", w: 0.7}, {lemma: "brush", w: 0.6}, {lemma: "tap", w: 0.6}]
+      fa: [{lemma: "تماس", w: 0.9}, {lemma: "لمس", w: 0.9}, {lemma: "فشار", w: 0.7}, {lemma: "گرفتن", w: 0.6}, {lemma: "تق‌تق", w: 0.6}]
+    coactivate: [surface, attraction_repulsion, boundary]
+    examples:
+      text: ["palm on the handle decides for me", "دست بر دستگیره تصمیم می‌گیرد"]
+      visual: ["fingerprint close-up; handle polish mark"]
+    provenance: {source: "Curator", curator: "Mahyar", license: "CC-BY", confidence: 0.8}
+
+  - id: scale
+    title: "Scale"
+    definition: "Relative size or magnitude frames what counts as small, human, or vast."
+    roles: [observer_scale, object_scale, reference]
+    params:
+      ratio: {type: float, min: 0.01, max: 100.0, default: 1.0}
+    affect: {valence: 0.0, arousal: 0.5, tension: 0.2}
+    lexicon:
+      en: [{lemma: "small", w: 0.8}, {lemma: "huge", w: 0.8}, {lemma: "miniature", w: 0.6}, {lemma: "giant", w: 0.7}, {lemma: "scale", w: 0.7}]
+      fa: [{lemma: "کوچک", w: 0.8}, {lemma: "بزرگ", w: 0.8}, {lemma: "ریز", w: 0.6}, {lemma: "غول", w: 0.6}, {lemma: "مقیاس", w: 0.7}]
+    coactivate: [center_periphery, verticality, part_whole]
+    examples:
+      text: ["a street shrinks to fit the map", "خیابان در نقشه جا می‌شود"]
+      visual: ["tiny key in large palm; oversized shadow"]
+    provenance: {source: "Curator", curator: "Mahyar", license: "CC-BY", confidence: 0.78}
+
+  - id: boundary
+    title: "Boundary"
+    definition: "A limit that separates, protects, or qualifies transitions between spaces."
+    roles: [inside, boundary, outside, threshold]
+    params:
+      porosity: {type: float, min: 0.0, max: 1.0, default: 0.4}
+      sharpness: {type: float, min: 0.0, max: 1.0, default: 0.6}
+    affect: {valence: 0.0, arousal: 0.55, threat: 0.25}
+    lexicon:
+      en: [{lemma: "border", w: 0.8}, {lemma: "edge", w: 0.7}, {lemma: "threshold", w: 0.8}, {lemma: "limit", w: 0.7}, {lemma: "gate", w: 0.7}]
+      fa: [{lemma: "مرز", w: 0.9}, {lemma: "لبه", w: 0.7}, {lemma: "آستانه", w: 0.9}, {lemma: "حد", w: 0.7}, {lemma: "درگاه", w: 0.7}]
+    coactivate: [container, path, merging_separation]
+    examples:
+      text: ["the threshold keeps the weapon a rumor", "آستانه، شایعهٔ سلاح را نگه می‌دارد"]
+      visual: ["doorframe silhouette; lintel mark"]
+    provenance: {source: "Project gates/threshold rule", curator: "Mahyar", license: "CC-BY", confidence: 0.86}
+
+  - id: merging_separation
+    title: "Merging–Separation"
+    definition: "Entities fuse into one or split apart, changing identity and count."
+    roles: [members, union, split]
+    params:
+      cohesion: {type: float, min: 0.0, max: 1.0, default: 0.5}
+      rate: {type: float, min: 0.0, max: 1.0, default: 0.3}
+    affect: {valence: 0.0, arousal: 0.6, tension: 0.45}
+    lexicon:
+      en: [{lemma: "merge", w: 0.8}, {lemma: "blend", w: 0.7}, {lemma: "separate", w: 0.8}, {lemma: "split", w: 0.7}, {lemma: "join", w: 0.7}]
+      fa: [{lemma: "ادغام", w: 0.9}, {lemma: "آمیزه", w: 0.8}, {lemma: "جدایی", w: 0.9}, {lemma: "شکافتن", w: 0.7}, {lemma: "پیوندخوردن", w: 0.7}]
+    coactivate: [part_whole, attraction_repulsion, boundary]
+    examples:
+      text: ["breath joins glass then leaves as water", "نفس با شیشه درمی‌آمیزد و جدا می‌شود"]
+      visual: ["ink blending in water; forked path"]
+    provenance: {source: "Curator; Blending theory cue", curator: "Mahyar", license: "CC-BY", confidence: 0.83}
