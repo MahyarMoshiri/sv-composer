@@ -1,0 +1,10 @@
+schemas:
+  - id: container
+    params:
+      in_out: [in, out]
+      pressure: [low, high]
+  - id: path
+    params:
+      source: ""
+      goal: ""
+      progress: 0.0

@@ -1,0 +1,4 @@
+frames:
+  - id: journey
+    allowed_schemas: [path, container]
+    allowed_metaphors: [life_is_travel, raw_cooked]

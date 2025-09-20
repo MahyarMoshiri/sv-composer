@@ -1,0 +1,8 @@
+metaphors:
+  - id: life_is_travel
+    source: path
+    target: life
+    affect: {tension: 0.4}
+  - id: raw_cooked
+    bipolar: [raw, cooked]
+    affect: {threat: 0.6, warmth: 0.2}
