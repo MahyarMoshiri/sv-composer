@@ -1,0 +1,40 @@
+version: "0.1.0"
+
+person:
+  en:
+    first: ["i", "me", "my", "mine", "myself", "we", "us", "our", "ours", "ourselves"]
+    second: ["you", "your", "yours", "yourself", "yourselves", "thou"]
+    imperatives: ["go", "come", "look", "listen", "remember", "consider", "imagine", "hold", "take", "bring", "enter", "leave", "follow", "stop", "wait", "breathe"]
+  fa:
+    first: ["من", "ما", "منم", "خودم", "خودمان"]
+    second: ["تو", "شما", "تویی", "خودت", "خودتان"]
+    imperatives: ["برو", "بیا", "نگاه کن", "گوش کن", "فکر کن", "تصور کن", "به‌خاطر بسپار", "بایست", "صبر کن", "نفس بکش", "بمان", "دنبال کن"]
+
+tense:
+  en:
+    past_verbs: ["was", "were", "had", "did", "went", "came", "said", "saw", "felt", "knew", "took", "made", "gave", "left"]
+    past_adverbs: ["yesterday", "before", "previously", "once", "then", "already", "earlier", "formerly", "ago", "back"]
+    time_nouns: ["yesterday", "last night", "last week", "last year", "spring", "winter"]
+    last_tokens: ["last", "previous", "former"]
+    past_suffixes: ["ed"]
+    contains: [" was ", " were ", " had ", " did ", " came ", " went "]
+  fa:
+    past_verbs: ["بود", "شد", "کرد", "گفت", "آمد", "رفت", "دید", "داشت", "گرفت", "ماند", "ریخت", "سوخت"]
+    past_adverbs: ["دیروز", "پیشتر", "قبلاً", "آن‌گاه", "آنگاه", "سپس"]
+    time_nouns: ["دیشب", "پارسال", "سالِ گذشته", "هفتهٔ گذشته", "بهارِ گذشته"]
+    last_tokens: ["گذشته", "پیشین", "دفعهٔ قبل", "سالِ گذشته"]
+    past_suffixes: ["ه", "ید", "یم", "ند"]
+    contains: ["گذشت", "بود", "شد", "کرد", "گفت", "آمد", "رفت", "دید"]
+
+distance:
+  en:
+    close: ["inside", "within", "room", "chamber", "corridor", "tunnel", "threshold", "door", "hands", "hand", "skin", "breath", "pocket", "embrace", "near", "shadow", "stairs"]
+    far: ["horizon", "mountain", "mountains", "landscape", "distant", "distance", "sky", "clouds", "valley", "field", "fields", "plain", "plains", "desert", "sea", "ocean", "vista", "expanse", "street"]
+  fa:
+    close: ["درون", "اتاق", "آغوش", "نفس", "پوست", "دست", "جیب", "سایه", "پله", "نزدیک"]
+    far: ["افق", "کوه", "دشت", "دریا", "آسمان", "بیابان", "دور", "فاصله", "خیابان", "دشت‌ها"]
+
+fallback:
+  defaults: { person: "3rd", tense: "present", distance: "medium" }
+  frames:
+    journey: { person: "3rd", tense: "present", distance: "far" }

@@ -1,0 +1,6 @@
+- Show, not tell; concrete images over abstractions.
+- Keep grammar simple; prefer present tense unless viewpoint overrides.
+- One frame only; no new metaphors after the **settle** beat.
+- Prefer low camera, soft sound cues (e.g., hush); no slapstick or neon metaphors.
+- Bilingual: Persian words only when semantically necessary, never decorative.
+- Respect **one-move** if shot planning is enabled.

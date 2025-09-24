@@ -1,0 +1,72 @@
+version: "0.1.0"
+# Thresholds for evaluator + CI gate. Numbers are 0..1 unless noted.
+metrics:
+  # Minimum floors (each must be met)
+  frame_fit_min: 0.70
+  schema_cov_min: 0.60
+  metaphor_diversity_min: 0.40
+  attention_discipline_min: 0.65
+
+# Target window for the semantic explosion around the TURN beat
+# TURN expectation target is ~0.85; window below gives leeway for style.
+explosion_timing_range: [0.75, 0.95]
+explosion_timing_target: 0.85
+
+form:
+  max_lines: 8           # hard cap (matches beats.yml globals.total_max_lines)
+  max_chars: 680         # hard cap (matches beats.yml globals.total_max_chars)
+  trace_required: true   # compose_final must include an audit trace
+
+# Contribution weights for the weighted score (sum = 1.0)
+weights:
+  frame_fit: 0.35
+  schema_cov: 0.25
+  metaphor_diversity: 0.15
+  attention_discipline: 0.15
+  explosion_timing: 0.10
+
+# Penalties are deducted AFTER weighted sum; clamp total_penalty to <= 0.90
+penalties:
+  frame_violation: 0.25   # used schemas/metaphors disallowed by active frame
+  banned_pair: 0.30       # fired a disallowed metaphor/schema pair
+  over_length: 0.15       # exceeded form caps (lines or chars)
+  missing_trace: 0.40     # no trace when required
+  weak_turn: 0.10         # TURN beat under-shoots expectation slightly
+
+# Any true -> automatic FAIL
+critical_violations:
+  disallowed_content: true        # guardrails/safety hit (e.g., gore/neon ban)
+  explosion_outside_turn: true    # explosion fires outside configured TURN
+  empty_output: true              # zero non-whitespace characters
+
+# Optional overrides
+overrides:
+  frames:
+    journey:
+      weights:
+        frame_fit: 0.40
+        schema_cov: 0.25
+        metaphor_diversity: 0.10
+        attention_discipline: 0.15
+        explosion_timing: 0.10
+      penalties:
+        over_length: 0.10
+  metaphors:
+    raw_cooked:
+      penalties:
+        weak_turn: 0.15
+
+# Final decision rule evaluated by the evaluator
+# Available computed symbols:
+#   score          = weighted_sum(weights × realized_metrics)
+#   floors_ok      = all(metric >= *_min)
+#   any_critical   = any(critical_violations fired)
+#   total_penalty  = sum(applied penalties), clamped to <= 0.90
+accept_threshold: 0.70
+acceptance_rule: "(score - total_penalty) >= accept_threshold AND floors_ok AND in_range(explosion_timing, explosion_timing_range) AND NOT any_critical"
+
+# Optional reporting bins for dashboards
+reporting:
+  buckets:
+    score: [0.0, 0.5, 0.7, 0.85, 1.0]
+    frame_fit: [0.0, 0.6, 0.75, 0.9, 1.0]

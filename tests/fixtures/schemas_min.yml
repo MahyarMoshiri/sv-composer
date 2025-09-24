@@ -1,0 +1,66 @@
+version: 0.1.1
+schemas:
+  - id: container
+    title: Container
+    definition: A bounded region that can contain other entities.
+    roles:
+      - interior
+      - boundary
+    params:
+      in_out:
+        type: enum
+        values: [in, out]
+      pressure:
+        type: enum
+        values: [low, high]
+    affect:
+      valence: 0.1
+      arousal: 0.5
+    lexicon:
+      en:
+        - lemma: inside
+          w: 0.8
+        - lemma: container
+          w: 0.6
+      fa: []
+    coactivate: [path]
+    examples:
+      text:
+        - "The water stays inside the cup."
+      visual: []
+    provenance:
+      source: Example
+      curator: team
+      license: CC-BY
+      confidence: 0.7
+  - id: path
+    title: Path
+    definition: A trajectory from a source to a goal.
+    roles:
+      - source
+      - goal
+    params:
+      progress:
+        type: float
+        min: 0.0
+        max: 1.0
+        default: 0.0
+    affect:
+      valence: 0.0
+      arousal: 0.4
+    lexicon:
+      en:
+        - lemma: path
+          w: 0.6
+        - lemma: journey
+          w: 0.7
+      fa: []
+    coactivate: [container]
+    examples:
+      text: []
+      visual: []
+    provenance:
+      source: Example
+      curator: team
+      license: CC-BY
+      confidence: 0.7

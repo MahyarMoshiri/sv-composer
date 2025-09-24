@@ -1,8 +1,573 @@
+version: "0.1.0"
 metaphors:
+  # === PRIMARY ===
   - id: life_is_travel
-    source: path
+    type: primary
+    definition: "We understand life as a journey along paths, gates, and steps toward shifting goals."
+    source_schema: path
     target: life
-    affect: {tension: 0.4}
+    affect: { valence: 0.1, arousal: 0.55, tension: 0.35, novelty: 0.35 }
+    lexicon:
+      en: [
+        { lemma: "journey", w: 0.9 }, { lemma: "road", w: 0.85 }, { lemma: "path", w: 0.85 },
+        { lemma: "bridge", w: 0.75 }, { lemma: "tunnel", w: 0.65 }, { lemma: "stairs", w: 0.65 },
+        { lemma: "map", w: 0.6 }, { lemma: "cross", w: 0.6 }, { lemma: "street", w: 0.6 }, { lemma: "gate", w: 0.5 }
+      ]
+      fa: [
+        { lemma: "سفر", w: 0.9 }, { lemma: "راه", w: 0.85 }, { lemma: "جاده", w: 0.85 },
+        { lemma: "پل", w: 0.75 }, { lemma: "تونل", w: 0.65 }, { lemma: "پله", w: 0.65 },
+        { lemma: "نقشه", w: 0.6 }, { lemma: "عبور", w: 0.6 }, { lemma: "خیابان", w: 0.6 }, { lemma: "دروازه", w: 0.5 }
+      ]
+    coactivate_schemas: [path, boundary, link]
+    preferred_frames: [journey, bridge_tunnel, climb_stairs]
+    gating: { beats_bias: development, expectation_increment: 0.15 }
+    examples:
+      text: ["we cross the years like bridges", "a new street grows out of noon"]
+      visual: ["bridge", "stairs", "map"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.86 }
+
+  - id: knowledge_is_light
+    type: primary
+    definition: "Knowing is being lit; small lamps and dawn windows make lines legible."
+    source_schema: surface
+    target: knowledge
+    affect: { valence: 0.35, arousal: 0.5, warmth: 0.55, novelty: 0.3 }
+    lexicon:
+      en: [
+        { lemma: "light", w: 0.9 }, { lemma: "lamp", w: 0.85 }, { lemma: "lantern", w: 0.85 },
+        { lemma: "dawn", w: 0.7 }, { lemma: "window", w: 0.65 }, { lemma: "glow", w: 0.6 },
+        { lemma: "bright", w: 0.6 }, { lemma: "reveal", w: 0.55 }, { lemma: "shine", w: 0.5 }, { lemma: "trace", w: 0.45 }
+      ]
+      fa: [
+        { lemma: "نور", w: 0.9 }, { lemma: "چراغ", w: 0.85 }, { lemma: "فانوس", w: 0.85 },
+        { lemma: "سپیده", w: 0.7 }, { lemma: "پنجره", w: 0.65 }, { lemma: "روشنی", w: 0.6 },
+        { lemma: "روشن", w: 0.6 }, { lemma: "نشان", w: 0.55 }, { lemma: "تابش", w: 0.5 }, { lemma: "رد", w: 0.45 }
+      ]
+    coactivate_schemas: [surface, balance, center_periphery]
+    preferred_frames: [revelation, window]
+    gating: { beats_bias: reveal, expectation_increment: 0.18 }
+    examples:
+      text: ["small lanterns trace the lines on the map"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.84 }
+
+  - id: memory_is_map
+    type: primary
+    definition: "Memory is a map of lines and folds; reading it changes the route."
+    source_schema: path
+    target: memory
+    affect: { valence: 0.05, arousal: 0.5, tension: 0.4, novelty: 0.4 }
+    lexicon:
+      en: [
+        { lemma: "map", w: 0.9 }, { lemma: "line", w: 0.8 }, { lemma: "route", w: 0.75 },
+        { lemma: "fold", w: 0.65 }, { lemma: "margin", w: 0.6 }, { lemma: "trace", w: 0.6 },
+        { lemma: "atlas", w: 0.5 }, { lemma: "grid", w: 0.5 }, { lemma: "back", w: 0.45 }, { lemma: "cartography", w: 0.45 }
+      ]
+      fa: [
+        { lemma: "نقشه", w: 0.9 }, { lemma: "خط", w: 0.8 }, { lemma: "مسیر", w: 0.75 },
+        { lemma: "تا", w: 0.65 }, { lemma: "حاشیه", w: 0.6 }, { lemma: "رد", w: 0.6 },
+        { lemma: "اطلس", w: 0.5 }, { lemma: "شبکه", w: 0.5 }, { lemma: "پشت", w: 0.45 }, { lemma: "کارتوگرافی", w: 0.45 }
+      ]
+    coactivate_schemas: [path, boundary, surface]
+    preferred_frames: [memory_map, window, journey]
+    gating: { beats_bias: setup, expectation_increment: 0.12 }
+    examples:
+      text: ["as if we read the map from the back"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.83 }
+
+  - id: time_is_motion
+    type: primary
+    definition: "Time is a motion—waking, turning, drifting—rather than a static count."
+    source_schema: cycle
+    target: time
+    affect: { valence: 0.0, arousal: 0.55, tension: 0.35, novelty: 0.35 }
+    lexicon:
+      en: [
+        { lemma: "flow", w: 0.85 }, { lemma: "drift", w: 0.75 }, { lemma: "spin", w: 0.7 },
+        { lemma: "turn", w: 0.65 }, { lemma: "count", w: 0.6 }, { lemma: "morning", w: 0.6 },
+        { lemma: "evening", w: 0.55 }, { lemma: "noon", w: 0.55 }, { lemma: "wake", w: 0.55 }, { lemma: "fall", w: 0.5 }
+      ]
+      fa: [
+        { lemma: "جریان", w: 0.85 }, { lemma: "گذر", w: 0.75 }, { lemma: "چرخش", w: 0.7 },
+        { lemma: "گردش", w: 0.65 }, { lemma: "شمار", w: 0.6 }, { lemma: "صبح", w: 0.6 },
+        { lemma: "عصر", w: 0.55 }, { lemma: "ظهر", w: 0.55 }, { lemma: "بیدار", w: 0.55 }, { lemma: "افتادن", w: 0.5 }
+      ]
+    coactivate_schemas: [cycle, path]
+    preferred_frames: [clockless_day, street_scene]
+    gating: { beats_bias: development, expectation_increment: 0.12 }
+    examples:
+      text: ["morning wakes before me; the street begins elsewhere"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.82 }
+
+  - id: intimacy_is_closeness
+    type: primary
+    definition: "Closeness and touch stand in for intimacy; breath and shoulders become distance units."
+    source_schema: near_far
+    target: intimacy
+    affect: { valence: 0.4, arousal: 0.45, warmth: 0.6, tension: 0.25 }
+    lexicon:
+      en: [
+        { lemma: "near", w: 0.9 }, { lemma: "close", w: 0.85 }, { lemma: "touch", w: 0.8 },
+        { lemma: "shoulder", w: 0.7 }, { lemma: "breath", w: 0.65 }, { lemma: "beside", w: 0.6 },
+        { lemma: "lean", w: 0.55 }, { lemma: "embrace", w: 0.5 }, { lemma: "whisper", w: 0.5 }
+      ]
+      fa: [
+        { lemma: "نزدیک", w: 0.9 }, { lemma: "نزدیکی", w: 0.85 }, { lemma: "تماس", w: 0.8 },
+        { lemma: "شانه", w: 0.7 }, { lemma: "نفس", w: 0.65 }, { lemma: "کنار", w: 0.6 },
+        { lemma: "تکیه", w: 0.55 }, { lemma: "آغوش", w: 0.5 }, { lemma: "نجوا", w: 0.5 }
+      ]
+    coactivate_schemas: [near_far, contact]
+    preferred_frames: [gaze, breath]
+    gating: { beats_bias: setup, expectation_increment: 0.08 }
+    examples:
+      text: ["I give my hand to the shadow to do ‘go’ and ‘stay’"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.8 }
+
+  - id: control_is_holding
+    type: primary
+    definition: "To control is to hold—keys, handles, and names pressed into palm and tongue."
+    source_schema: contact
+    target: control
+    affect: { valence: 0.05, arousal: 0.5, tension: 0.45 }
+    lexicon:
+      en: [
+        { lemma: "hold", w: 0.9 }, { lemma: "grip", w: 0.85 }, { lemma: "handle", w: 0.8 },
+        { lemma: "key", w: 0.8 }, { lemma: "lock", w: 0.7 }, { lemma: "palm", w: 0.6 },
+        { lemma: "tongue", w: 0.55 }, { lemma: "press", w: 0.5 }, { lemma: "weight", w: 0.5 }
+      ]
+      fa: [
+        { lemma: "گرفتن", w: 0.9 }, { lemma: "چنگ", w: 0.85 }, { lemma: "دستگیره", w: 0.8 },
+        { lemma: "کلید", w: 0.8 }, { lemma: "قفل", w: 0.7 }, { lemma: "کف", w: 0.6 },
+        { lemma: "زبان", w: 0.55 }, { lemma: "فشار", w: 0.5 }, { lemma: "وزن", w: 0.5 }
+      ]
+    coactivate_schemas: [contact, boundary, blockage]
+    preferred_frames: [key_lock, threshold]
+    gating: { beats_bias: turn, expectation_increment: 0.2 }
+    examples:
+      text: ["the handle goes down under a weight that is not mine"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.82 }
+
+  - id: thought_is_breath
+    type: primary
+    definition: "Thinking moves like breath and wind; ideas arrive as inhales and leave as exhales."
+    source_schema: cycle
+    target: thought
+    affect: { valence: 0.2, arousal: 0.45, warmth: 0.4 }
+    lexicon:
+      en: [
+        { lemma: "breath", w: 0.9 }, { lemma: "wind", w: 0.85 }, { lemma: "air", w: 0.8 },
+        { lemma: "whisper", w: 0.65 }, { lemma: "exhale", w: 0.6 }, { lemma: "inhale", w: 0.6 },
+        { lemma: "light as breath", w: 0.5 }, { lemma: "sigh", w: 0.5 }
+      ]
+      fa: [
+        { lemma: "نفس", w: 0.9 }, { lemma: "باد", w: 0.85 }, { lemma: "هوا", w: 0.8 },
+        { lemma: "زمزمه", w: 0.65 }, { lemma: "بازدم", w: 0.6 }, { lemma: "دم", w: 0.6 },
+        { lemma: "سبک", w: 0.5 }, { lemma: "آه", w: 0.5 }
+      ]
+    coactivate_schemas: [cycle, contact]
+    preferred_frames: [breath, hush]
+    gating: { beats_bias: development, expectation_increment: 0.1 }
+    examples:
+      text: ["what must go, returns shaped like breath"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.78 }
+
+  - id: self_is_shadow
+    type: primary
+    definition: "The self is shadow—quick, thieving, climbing, a pupil that arranges the world."
+    source_schema: surface
+    target: self
+    affect: { valence: -0.05, arousal: 0.6, tension: 0.5, novelty: 0.45 }
+    lexicon:
+      en: [
+        { lemma: "shadow", w: 0.9 }, { lemma: "shade", w: 0.75 }, { lemma: "pupil", w: 0.7 },
+        { lemma: "mirror", w: 0.65 }, { lemma: "reflection", w: 0.6 }, { lemma: "cling", w: 0.55 },
+        { lemma: "climb", w: 0.55 }, { lemma: "steal", w: 0.5 }
+      ]
+      fa: [
+        { lemma: "سایه", w: 0.9 }, { lemma: "سایه‌روشن", w: 0.75 }, { lemma: "مردمک", w: 0.7 },
+        { lemma: "آینه", w: 0.65 }, { lemma: "بازتاب", w: 0.6 }, { lemma: "بچسبد", w: 0.55 },
+        { lemma: "بالا رفتن", w: 0.55 }, { lemma: "دزدیدن", w: 0.5 }
+      ]
+    coactivate_schemas: [surface, center_periphery]
+    preferred_frames: [gaze, mirror]
+    banned_with: []
+    gating: { beats_bias: turn, expectation_increment: 0.22 }
+    examples:
+      text: ["my shadow steals a step and climbs my shoulder"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.86 }
+
+  - id: death_is_fruit
+    type: primary
+    definition: "Death appears as fruit—unripe fig, spinning apple—tied to stems and seasons."
+    source_schema: cycle
+    target: death
+    affect: { valence: -0.5, arousal: 0.55, threat: 0.6, tension: 0.55 }
+    lexicon:
+      en: [
+        { lemma: "apple", w: 0.9 }, { lemma: "fig", w: 0.85 }, { lemma: "unripe", w: 0.75 },
+        { lemma: "stem", w: 0.7 }, { lemma: "sap", w: 0.65 }, { lemma: "bite", w: 0.55 },
+        { lemma: "fall", w: 0.55 }, { lemma: "spin", w: 0.5 }
+      ]
+      fa: [
+        { lemma: "سیب", w: 0.9 }, { lemma: "انجیر", w: 0.85 }, { lemma: "نارس", w: 0.75 },
+        { lemma: "ساقه", w: 0.7 }, { lemma: "شیرابه", w: 0.65 }, { lemma: "گاز", w: 0.55 },
+        { lemma: "افتادن", w: 0.55 }, { lemma: "چرخیدن", w: 0.5 }
+      ]
+    coactivate_schemas: [cycle, balance]
+    preferred_frames: [garden, moonlit_orchard]
+    gating: { beats_bias: reveal, expectation_increment: 0.2 }
+    examples:
+      text: ["death is an apple spinning before the moon"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.88 }
+
+  - id: sleep_is_threshold
+    type: primary
+    definition: "Sleep is a boundary event—neither bunker nor escape, but a staged crossing between worlds."
+    source_schema: boundary
+    target: sleep
+    affect: { valence: 0.0, arousal: 0.45, tension: 0.4 }
+    lexicon:
+      en: [
+        { lemma: "sleep", w: 0.9 }, { lemma: "bed", w: 0.8 }, { lemma: "branch", w: 0.75 },
+        { lemma: "between", w: 0.7 }, { lemma: "border", w: 0.65 }, { lemma: "gate", w: 0.6 },
+        { lemma: "accident", w: 0.55 }, { lemma: "world", w: 0.5 }
+      ]
+      fa: [
+        { lemma: "خواب", w: 0.9 }, { lemma: "تخت", w: 0.8 }, { lemma: "شاخه", w: 0.75 },
+        { lemma: "میان", w: 0.7 }, { lemma: "مرز", w: 0.65 }, { lemma: "درگاه", w: 0.6 },
+        { lemma: "تصادف", w: 0.55 }, { lemma: "جهان", w: 0.5 }
+      ]
+    coactivate_schemas: [boundary, link, path]
+    preferred_frames: [sleep_gate, hush]
+    gating: { beats_bias: turn, expectation_increment: 0.22 }
+    examples:
+      text: ["sleep is a staged accident between me and the world"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.9 }
+
+  - id: language_is_key
+    type: primary
+    definition: "Language is a key on the tongue; names and numbers open rooms."
+    source_schema: link
+    target: language
+    affect: { valence: 0.15, arousal: 0.5, tension: 0.3 }
+    lexicon:
+      en: [
+        { lemma: "key", w: 0.9 }, { lemma: "tongue", w: 0.85 }, { lemma: "lock", w: 0.8 },
+        { lemma: "door", w: 0.75 }, { lemma: "word", w: 0.7 }, { lemma: "name", w: 0.65 },
+        { lemma: "open", w: 0.6 }, { lemma: "count", w: 0.55 }
+      ]
+      fa: [
+        { lemma: "کلید", w: 0.9 }, { lemma: "زبان", w: 0.85 }, { lemma: "قفل", w: 0.8 },
+        { lemma: "در", w: 0.75 }, { lemma: "واژه", w: 0.7 }, { lemma: "نام", w: 0.65 },
+        { lemma: "باز", w: 0.6 }, { lemma: "شمار", w: 0.55 }
+      ]
+    coactivate_schemas: [link, boundary, contact]
+    preferred_frames: [key_lock, room_numbers]
+    gating: { beats_bias: reveal, expectation_increment: 0.16 }
+    examples:
+      text: ["she sets the keys on the tongue and counts the rooms"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.87 }
+
+  - id: secrets_are_seeds
+    type: primary
+    definition: "Secrets are seeds hidden in cracks; they sprout as pale shells by morning."
+    source_schema: container
+    target: secrets
+    affect: { valence: 0.05, arousal: 0.55, tension: 0.5, novelty: 0.5 }
+    lexicon:
+      en: [
+        { lemma: "seed", w: 0.9 }, { lemma: "crack", w: 0.85 }, { lemma: "stair", w: 0.75 },
+        { lemma: "nail", w: 0.7 }, { lemma: "shell", w: 0.65 }, { lemma: "sprout", w: 0.6 },
+        { lemma: "white", w: 0.55 }, { lemma: "night", w: 0.5 }
+      ]
+      fa: [
+        { lemma: "بذر", w: 0.9 }, { lemma: "درز", w: 0.85 }, { lemma: "پله", w: 0.75 },
+        { lemma: "ناخن", w: 0.7 }, { lemma: "پوسته", w: 0.65 }, { lemma: "جوانه", w: 0.6 },
+        { lemma: "سفید", w: 0.55 }, { lemma: "شب", w: 0.5 }
+      ]
+    coactivate_schemas: [container, cycle, surface]
+    preferred_frames: [garden_seed, climb_stairs]
+    gating: { beats_bias: reveal, expectation_increment: 0.2 }
+    examples:
+      text: ["I plant a nail-seed in the stair’s crack; by morning a white shell peels"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.9 }
+
+  - id: desire_is_pull
+    type: primary
+    definition: "Desire acts as a pull that shows and draws bodies along invisible lines."
+    source_schema: attraction_repulsion
+    target: desire
+    affect: { valence: 0.15, arousal: 0.6, tension: 0.45 }
+    lexicon:
+      en: [
+        { lemma: "pull", w: 0.9 }, { lemma: "draw", w: 0.8 }, { lemma: "lure", w: 0.75 },
+        { lemma: "show", w: 0.65 }, { lemma: "hunger", w: 0.6 }, { lemma: "thirst", w: 0.55 },
+        { lemma: "magnet", w: 0.5 }
+      ]
+      fa: [
+        { lemma: "کشش", w: 0.9 }, { lemma: "کشاندن", w: 0.8 }, { lemma: "وسوسه", w: 0.75 },
+        { lemma: "نشان", w: 0.65 }, { lemma: "گرسنگی", w: 0.6 }, { lemma: "تشنگی", w: 0.55 },
+        { lemma: "آهنربا", w: 0.5 }
+      ]
+    coactivate_schemas: [attraction_repulsion, path]
+    preferred_frames: [pursuit, street_scene]
+    gating: { beats_bias: development, expectation_increment: 0.14 }
+    examples:
+      text: ["the cloud shows the lost to their own desire"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.77 }
+
+  - id: city_is_body
+    type: primary
+    definition: "The city is a body; streets mouth and skin, eyes and shoulders that breathe."
+    source_schema: part_whole
+    target: city
+    affect: { valence: 0.1, arousal: 0.5, novelty: 0.45 }
+    lexicon:
+      en: [
+        { lemma: "street", w: 0.9 }, { lemma: "mouth", w: 0.8 }, { lemma: "skin", w: 0.75 },
+        { lemma: "vein", w: 0.7 }, { lemma: "shoulder", w: 0.65 }, { lemma: "hand", w: 0.6 },
+        { lemma: "breath", w: 0.6 }, { lemma: "eye", w: 0.55 }
+      ]
+      fa: [
+        { lemma: "خیابان", w: 0.9 }, { lemma: "دهان", w: 0.8 }, { lemma: "پوست", w: 0.75 },
+        { lemma: "رگ", w: 0.7 }, { lemma: "شانه", w: 0.65 }, { lemma: "دست", w: 0.6 },
+        { lemma: "نفس", w: 0.6 }, { lemma: "چشم", w: 0.55 }
+      ]
+    coactivate_schemas: [part_whole, surface, contact]
+    preferred_frames: [street_scene, crowd_growth]
+    gating: { beats_bias: setup, expectation_increment: 0.1 }
+    examples:
+      text: ["by noon, a new street grows out of people"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.81 }
+
+  # === BIPOLAR AXES ===
+  - id: light_dark
+    type: bipolar
+    definition: "Meaning unfolds along illumination: LIGHT ↔ DARK as visibility and concealment."
+    axis: illumination
+    bipolar: [light, dark]
+    affect: { valence: 0.0, arousal: 0.55, tension: 0.45, warmth: 0.35 }
+    pole_affect:
+      light: { valence: 0.3, arousal: 0.5, warmth: 0.5 }
+      dark:  { valence: -0.2, arousal: 0.6, threat: 0.55 }
+    lexicon:
+      en: [
+        { lemma: "light", w: 0.9 }, { lemma: "bright", w: 0.8 }, { lemma: "glow", w: 0.7 },
+        { lemma: "dark", w: 0.9 }, { lemma: "shadow", w: 0.85 }, { lemma: "night", w: 0.75 }
+      ]
+      fa: [
+        { lemma: "نور", w: 0.9 }, { lemma: "روشن", w: 0.8 }, { lemma: "تابش", w: 0.7 },
+        { lemma: "تاریک", w: 0.9 }, { lemma: "سایه", w: 0.85 }, { lemma: "شب", w: 0.75 }
+      ]
+    coactivate_schemas: [surface, center_periphery]
+    preferred_frames: [window, tunnel]
+    gating: { beats_bias: reveal, expectation_increment: 0.25 }
+    examples:
+      text: ["this page slides to the next darkness"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.88 }
+
+  - id: near_far
+    type: bipolar
+    definition: "Proximity sets tone: NEAR ↔ FAR as social and sensory distance."
+    axis: proximity
+    bipolar: [near, far]
+    affect: { valence: 0.1, arousal: 0.45, tension: 0.35 }
+    pole_affect:
+      near: { valence: 0.25, arousal: 0.4, comfort: 0.5 }
+      far:  { valence: -0.1, arousal: 0.5, tension: 0.45 }
+    lexicon:
+      en: [
+        { lemma: "near", w: 0.9 }, { lemma: "close", w: 0.85 }, { lemma: "beside", w: 0.7 },
+        { lemma: "far", w: 0.9 }, { lemma: "distant", w: 0.8 }, { lemma: "margin", w: 0.6 }
+      ]
+      fa: [
+        { lemma: "نزدیک", w: 0.9 }, { lemma: "کنار", w: 0.75 }, { lemma: "فاصله", w: 0.65 },
+        { lemma: "دور", w: 0.9 }, { lemma: "کناره", w: 0.7 }, { lemma: "حاشیه", w: 0.6 }
+      ]
+    coactivate_schemas: [near_far, center_periphery]
+    preferred_frames: [gaze, approach]
+    gating: { beats_bias: setup, expectation_increment: 0.12 }
+    examples:
+      text: ["I step a few paces into the pit"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.8 }
+
+  - id: open_closed
+    type: bipolar
+    definition: "Openness governs flow: OPEN ↔ CLOSED across doors, mouths, and maps."
+    axis: openness
+    bipolar: [open, closed]
+    affect: { valence: 0.0, arousal: 0.5, tension: 0.5 }
+    pole_affect:
+      open:   { valence: 0.2, arousal: 0.45 }
+      closed: { valence: -0.2, arousal: 0.6, threat: 0.5 }
+    lexicon:
+      en: [
+        { lemma: "open", w: 0.9 }, { lemma: "half-open", w: 0.7 }, { lemma: "unlock", w: 0.65 },
+        { lemma: "closed", w: 0.9 }, { lemma: "lock", w: 0.85 }, { lemma: "sealed", w: 0.7 }
+      ]
+      fa: [
+        { lemma: "باز", w: 0.9 }, { lemma: "نیمه", w: 0.7 }, { lemma: "بازکردن", w: 0.65 },
+        { lemma: "بسته", w: 0.9 }, { lemma: "قفل", w: 0.85 }, { lemma: "مهروموم", w: 0.7 }
+      ]
+    coactivate_schemas: [boundary, blockage, link]
+    preferred_frames: [key_lock, threshold]
+    gating: { beats_bias: turn, expectation_increment: 0.24 }
+    examples:
+      text: ["leaves keep the door half open so air can pass"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.9 }
+
+  - id: up_down
+    type: bipolar
+    definition: "Verticality shades agency: UP ↔ DOWN as climbing, rising, falling, descending."
+    axis: verticality
+    bipolar: [up, down]
+    affect: { valence: 0.0, arousal: 0.55, tension: 0.45 }
+    pole_affect:
+      up:   { valence: 0.15, arousal: 0.55 }
+      down: { valence: -0.1, arousal: 0.55, threat: 0.4 }
+    lexicon:
+      en: [
+        { lemma: "up", w: 0.8 }, { lemma: "climb", w: 0.8 }, { lemma: "rise", w: 0.7 },
+        { lemma: "down", w: 0.8 }, { lemma: "fall", w: 0.75 }, { lemma: "descend", w: 0.7 }
+      ]
+      fa: [
+        { lemma: "بالا", w: 0.8 }, { lemma: "بالا رفتن", w: 0.8 }, { lemma: "صعود", w: 0.7 },
+        { lemma: "پایین", w: 0.8 }, { lemma: "افتادن", w: 0.75 }, { lemma: "نزول", w: 0.7 }
+      ]
+    coactivate_schemas: [verticality, path]
+    preferred_frames: [climb_stairs, pine_view]
+    gating: { beats_bias: development, expectation_increment: 0.14 }
+    examples:
+      text: ["a pine lifts; the stolen step lands on my shoulder"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.83 }
+
+  - id: center_periphery
+    type: bipolar
+    definition: "Attention maps to geometry: CENTER ↔ PERIPHERY as focus vs. margin."
+    axis: focus
+    bipolar: [center, periphery]
+    affect: { valence: 0.05, arousal: 0.5 }
+    pole_affect:
+      center:    { valence: 0.15, arousal: 0.45 }
+      periphery: { valence: -0.05, arousal: 0.55 }
+    lexicon:
+      en: [
+        { lemma: "center", w: 0.85 }, { lemma: "focus", w: 0.8 }, { lemma: "pupil", w: 0.75 },
+        { lemma: "edge", w: 0.75 }, { lemma: "margin", w: 0.7 }, { lemma: "corner", w: 0.65 }
+      ]
+      fa: [
+        { lemma: "مرکز", w: 0.85 }, { lemma: "کانون", w: 0.8 }, { lemma: "مردمک", w: 0.75 },
+        { lemma: "لبه", w: 0.75 }, { lemma: "حاشیه", w: 0.7 }, { lemma: "گوشه", w: 0.65 }
+      ]
+    coactivate_schemas: [center_periphery, surface]
+    preferred_frames: [gaze, mirror]
+    gating: { beats_bias: setup, expectation_increment: 0.1 }
+    examples:
+      text: ["pupils arranged the world inside the frame"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.78 }
+
+  - id: silent_loud
+    type: bipolar
+    definition: "Sound stakes a mood: SILENT ↔ LOUD between hush/whisper and horn/ring."
+    axis: sonority
+    bipolar: [silent, loud]
+    affect: { valence: 0.0, arousal: 0.55, tension: 0.45 }
+    pole_affect:
+      silent: { valence: 0.1, arousal: 0.4, comfort: 0.4 }
+      loud:   { valence: -0.05, arousal: 0.65, tension: 0.55 }
+    lexicon:
+      en: [
+        { lemma: "hush", w: 0.85 }, { lemma: "whisper", w: 0.8 }, { lemma: "quiet", w: 0.7 },
+        { lemma: "horn", w: 0.85 }, { lemma: "ring", w: 0.8 }, { lemma: "shout", w: 0.7 }
+      ]
+      fa: [
+        { lemma: "سکوت", w: 0.85 }, { lemma: "نجوا", w: 0.8 }, { lemma: "آرام", w: 0.7 },
+        { lemma: "بوق", w: 0.85 }, { lemma: "زنگ", w: 0.8 }, { lemma: "فریاد", w: 0.7 }
+      ]
+    coactivate_schemas: [cycle, contact]
+    preferred_frames: [hush, count_ring]
+    gating: { beats_bias: turn, expectation_increment: 0.22 }
+    examples:
+      text: ["only the ring of a handcart passes through the wall"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.82 }
+
+  - id: still_motion
+    type: bipolar
+    definition: "Life toggles between STILL ↔ MOTION: frozen pages vs. drifting streets."
+    axis: kinetics
+    bipolar: [still, motion]
+    affect: { valence: 0.0, arousal: 0.5, tension: 0.4 }
+    pole_affect:
+      still:  { valence: 0.05, arousal: 0.4 }
+      motion: { valence: 0.05, arousal: 0.6, novelty: 0.4 }
+    lexicon:
+      en: [
+        { lemma: "still", w: 0.85 }, { lemma: "stop", w: 0.75 }, { lemma: "freeze", w: 0.7 },
+        { lemma: "move", w: 0.85 }, { lemma: "flow", w: 0.8 }, { lemma: "spin", w: 0.75 }
+      ]
+      fa: [
+        { lemma: "سکون", w: 0.85 }, { lemma: "ایست", w: 0.75 }, { lemma: "یخ", w: 0.7 },
+        { lemma: "حرکت", w: 0.85 }, { lemma: "جریان", w: 0.8 }, { lemma: "چرخش", w: 0.75 }
+      ]
+    coactivate_schemas: [cycle, path]
+    preferred_frames: [street_scene, page_turn]
+    gating: { beats_bias: development, expectation_increment: 0.16 }
+    examples:
+      text: ["this page slips; the street begins somewhere else"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.8 }
+
   - id: raw_cooked
+    type: bipolar
+    definition: "Readiness as RAW ↔ COOKED (or UNRIPE ↔ RIPE) colors voice and fate."
+    axis: readiness
     bipolar: [raw, cooked]
-    affect: {threat: 0.6, warmth: 0.2}
+    affect: { valence: -0.05, arousal: 0.6, threat: 0.45, warmth: 0.3 }
+    pole_affect:
+      raw:    { valence: -0.15, arousal: 0.65, threat: 0.55 }
+      cooked: { valence:  0.2, arousal: 0.5, warmth: 0.45 }
+    lexicon:
+      en: [
+        { lemma: "raw", w: 0.9 }, { lemma: "unripe", w: 0.8 }, { lemma: "uncooked", w: 0.7 },
+        { lemma: "ripe", w: 0.8 }, { lemma: "cooked", w: 0.75 }, { lemma: "done", w: 0.6 }
+      ]
+      fa: [
+        { lemma: "خام", w: 0.9 }, { lemma: "نارس", w: 0.85 }, { lemma: "نپخته", w: 0.7 },
+        { lemma: "رسیده", w: 0.8 }, { lemma: "پخته", w: 0.75 }, { lemma: "آماده", w: 0.6 }
+      ]
+    coactivate_schemas: [container, balance, cycle]
+    preferred_frames: [union_separation, orchard]
+    banned_with: []
+    gating: { beats_bias: turn, expectation_increment: 0.23 }
+    examples:
+      text: ["there is no death—only an unripe fig loosening its stem"]
+    provenance: { source: "PoemCorpus v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.87 }
+
+  - id: ideas_are_food
+    type: primary
+    definition: "We understand ideas as ingestible/processed substances."
+    source_schema: container
+    target: ideas
+    affect: { valence: 0.0, arousal: 0.5, novelty: 0.3, tension: 0.2 }
+    lexicon:
+      en: [
+        { lemma: "taste", w: 0.7 }, { lemma: "chew", w: 0.7 }, { lemma: "swallow", w: 0.7 },
+        { lemma: "digest", w: 0.7 }, { lemma: "bitter", w: 0.6 }, { lemma: "sweet", w: 0.6 },
+        { lemma: "feed", w: 0.6 }, { lemma: "hunger", w: 0.5 }
+      ]
+      fa: [
+        { lemma: "مزه", w: 0.7 }, { lemma: "بجو", w: 0.7 }, { lemma: "قورت", w: 0.7 },
+        { lemma: "هضم", w: 0.7 }, { lemma: "تلخ", w: 0.6 }, { lemma: "شیرین", w: 0.6 },
+        { lemma: "خوراک", w: 0.6 }, { lemma: "گرسنگی", w: 0.5 }
+      ]
+    coactivate_schemas: [container, contact, surface, part_whole]
+    preferred_frames: []
+    banned_with: []
+    gating: { beats_bias: development, expectation_increment: 0.10 }
+    examples:
+      text: ["she chews the rumor until it softens"]
+    provenance: { source: "SV_Extended v0.1", curator: "Mahyar", license: "CC-BY", confidence: 0.85 }
+
+constraints:
+  max_active_bipolar_axes: 2
+  disallowed_pairs:
+    - [death_is_fruit, life_is_travel]
+    - [self_is_shadow, knowledge_is_light]

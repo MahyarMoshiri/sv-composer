@@ -1,0 +1,160 @@
+version: "0.1.0"
+vital_relations:
+  - id: identity
+    definition: "Same entity recognized across different input spaces."
+  - id: role
+    definition: "Participants aligned by function (agent, patient, path, goal, boundary)."
+  - id: time
+    definition: "Temporal alignment/compression across moments or cycles."
+  - id: space
+    definition: "Spatial alignment (here/there; near/far; inside/outside)."
+  - id: cause_effect
+    definition: "Events kept in causal order or compressed into a single act."
+  - id: part_whole
+    definition: "Membership, inclusion, or separation of parts and wholes."
+  - id: intention
+    definition: "Goal-directedness alignment (aim, desire, pursuit)."
+  - id: change
+    definition: "State transition alignment (open→closed, raw→cooked, dark→light)."
+  - id: analogy
+    definition: "Structural alignment without identity (map⇄city grid)."
+  - id: similarity
+    definition: "Feature likeness (shape, texture, tone) used for completion."
+  - id: contiguity
+    definition: "Contact/adjacency used to license metonymic shifts."
+
+operators:
+  - id: projection
+    safe: true
+    cost: 0.10
+    allowed_relations: [identity, role, time, space, part_whole]
+    note: "Default carry-over of structure from inputs to blend."
+  - id: composition
+    safe: true
+    cost: 0.20
+    allowed_relations: [role, cause_effect, part_whole, space]
+    note: "Combine roles/schemas from inputs into new relations."
+  - id: completion
+    safe: true
+    cost: 0.20
+    allowed_relations: [analogy, similarity]
+    note: "Fill gaps using culturally shared knowledge."
+  - id: elaboration
+    safe: true
+    cost: 0.25
+    allowed_relations: [intention, cause_effect, change]
+    note: "Simulate/improvise consequences inside the blend."
+  - id: selective_projection
+    safe: true
+    cost: 0.18
+    disallowed_relations: [identity]
+    note: "Forces choice among conflicting inputs; avoids total merges."
+  - id: fusion
+    safe: false
+    cost: 0.40
+    allowed_relations: [analogy]
+    note: "Collapse distinct counterparts into one. Use only if frame/override allows."
+
+counterpart_mapping:
+  role_alignment:
+    allow: [
+      "traveler↔agent", "crosser↔agent", "seer↔agent", "holder↔agent",
+      "goal↔goal", "target↔goal",
+      "path↔path", "vertical_path↔path",
+      "boundary↔boundary", "door↔boundary", "window↔boundary",
+      "lock↔barrier", "key↔token",
+      "map↔route", "stairs↔vertical_path",
+      "seed↔secret", "sprout↔reveal"
+    ]
+    disallow: [
+      "traveler↔content", "path↔container_content", "self↔object_only",
+      "key↔agent", "goal↔boundary"
+    ]
+  attribute_alignment:
+    allow: [brightness, loudness, distance, height, openness, pressure, temperature, weight, speed, direction, valence, arousal, wetness, texture_roughness]
+  non_projectable_features: [proper_name, exact_count, legal_identity, address_number, verbatim_quote]
+  priority: [identity, role, cause_effect, time, space, intention, part_whole, change, similarity, analogy, contiguity]
+
+compression_preferences:
+  allow: [identity, role, cause_effect, time, space, part_whole, intention, change, analogy, similarity, contiguity]
+  prefer: [role, cause_effect, time]
+  disallow: []
+
+constraints:
+  max_blend_depth: 2
+  max_ops_per_blend: 4
+  max_active_axes: 2
+  banned_schema_pairs: []
+  banned_metaphor_pairs: []
+  banned_frame_pairs: []
+  polar_conflicts:
+    raw_cooked:
+      simultaneous_false: true
+      allow_if_explosion_fired: true
+    open_closed:
+      simultaneous_false: true
+      allow_if_explosion_fired: true
+    light_dark:
+      simultaneous_false: true
+      allow_if_explosion_fired: true
+    up_down:
+      simultaneous_false: true
+      allow_if_explosion_fired: true
+
+frame_overrides:
+  journey:
+    disallowed_operators: [fusion]
+    max_ops_per_blend: 3
+    prefer_relations: [role, space]
+    operator_cost_adjust: {projection: -0.02, composition: -0.05}
+  union_separation:
+    prefer_relations: [part_whole, role]
+    operator_cost_adjust: {composition: -0.05}
+  sleep_gate:
+    disallowed_operators: []
+    prefer_relations: [time, boundary]
+    operator_whitelist: [projection, selective_projection, completion, elaboration]
+  key_lock:
+    disallowed_operators: [fusion]
+    prefer_relations: [role, cause_effect]
+  mirror:
+    disallowed_operators: [fusion]
+    prefer_relations: [identity, similarity]
+    operator_cost_adjust: {completion: -0.05}
+  pursuit:
+    prefer_relations: [intention, cause_effect, space]
+  page_turn:
+    prefer_relations: [time, change]
+    operator_cost_adjust: {elaboration: -0.03}
+  garden_seed:
+    prefer_relations: [part_whole, change]
+
+scoring:
+  operator_costs: {projection: 0.10, composition: 0.20, completion: 0.20, elaboration: 0.25, selective_projection: 0.18, fusion: 0.40}
+  penalty:
+    banned_pair: 1.0
+    depth_overflow: 0.8
+    frame_incompatibility: 0.7
+    polar_conflict: 0.6
+    unknown_mapping: 0.5
+  reward:
+    frame_compat: 0.40
+    schema_alignment: 0.30
+    metaphor_alignment: 0.25
+    minimality: 0.20
+    novelty_cap: 0.10
+  accept_threshold: 0.55
+
+examples:
+  safe:
+    description: "Blend JOURNEY (traveler→goal via PATH) with RAW/COOKED axis to show effort as heat building in a narrow STAIR."
+    audit_hint: "role+cause_effect respected; operators=[projection, composition, selective_projection]; polar OK; score≈0.68>0.55"
+  unsafe:
+    description: "In JOURNEY, fuse RAW & COOKED simultaneously while also fusing traveler with key."
+    audit_hint: "polar_conflict penalty=0.6; fusion disallowed by frame; ops>max; score≈0.31<0.55"
+
+provenance:
+  source: "SV_Extended v0.1 + PoemCorpus v0.1"
+  curator: "Mahyar"
+  license: "CC-BY"
+  confidence: 0.87

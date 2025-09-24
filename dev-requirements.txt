@@ -1,0 +1,8 @@
+ruff
+black
+isort
+mypy
+pytest
+pytest-cov
+pre-commit
+types-PyYAML

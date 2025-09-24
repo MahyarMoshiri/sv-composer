@@ -1,0 +1,106 @@
+version: "0.1.0"
+
+globals:
+  explosion_default_beat: 4       # default “turn”
+  total_max_chars: 680            # hard cap for compose_final
+  total_max_lines: 8
+
+enforce_order: true
+allow_skips: false
+
+beats:
+  - name: hook
+    order: 1
+    goal: "establish a concrete image with implicit tension; one clear subject"
+    min_chars: 40
+    max_chars: 140
+    expectation_target: 0.20
+    constraints:
+      allow_schemas: [container, path, surface]
+      disallow_schemas: []
+      allow_metaphors: []
+      disallow_metaphors: []
+      max_new_metaphors: 1
+      viewpoint_bias: { person: "3rd", tense: "present", distance: "close" }
+      attention_ops: { center_shift: "up" }
+      ban_tokens: ["blood", "gore", "neon", "خون", "نئون"]
+
+  - name: setup
+    order: 2
+    goal: "clarify space and roles; reveal a gate/axis without resolving it"
+    min_chars: 45
+    max_chars: 160
+    expectation_target: 0.40
+    constraints:
+      allow_schemas: [path, boundary, center_periphery, verticality]
+      disallow_schemas: []
+      allow_metaphors: []
+      disallow_metaphors: []
+      max_new_metaphors: 1
+      viewpoint_bias: { person: "3rd", tense: "present", distance: "medium" }
+      attention_ops: { center_shift: "hold" }
+      ban_tokens: ["blood", "gore", "neon", "خون", "نئون"]
+
+  - name: development
+    order: 3
+    goal: "intensify pressure or progress; shift attention toward the gate"
+    min_chars: 45
+    max_chars: 160
+    expectation_target: 0.60
+    constraints:
+      allow_schemas: [force_dynamics, balance, blockage]
+      disallow_schemas: []
+      allow_metaphors: [life_is_travel, time_is_motion]
+      disallow_metaphors: []
+      max_new_metaphors: 1
+      viewpoint_bias: { person: "1st", tense: "present", distance: "medium" }
+      attention_ops: { center_shift: "down" }
+      ban_tokens: ["blood", "gore", "neon", "خون", "نئون"]
+
+  - name: turn
+    order: 4
+    goal: "semantic explosion: reveal hidden cause or counter‑pole"
+    min_chars: 35
+    max_chars: 140
+    expectation_target: 0.85
+    constraints:
+      allow_schemas: [boundary, merging_separation, center_periphery]
+      disallow_schemas: []
+      allow_metaphors: [raw_cooked, light_dark, near_far, open_closed]
+      disallow_metaphors: []
+      max_new_metaphors: 1
+      viewpoint_bias: { person: "2nd", tense: "present", distance: "close" }
+      attention_ops: { center_shift: "up" }
+      ban_tokens: ["blood", "gore", "neon", "خون", "نئون"]
+
+  - name: reveal
+    order: 5
+    goal: "stabilize meaning with one precise, concrete detail"
+    min_chars: 30
+    max_chars: 120
+    expectation_target: 0.92
+    constraints:
+      allow_schemas: [balance, surface, contact]
+      disallow_schemas: []
+      allow_metaphors: []
+      disallow_metaphors: [raw_cooked, light_dark]
+      max_new_metaphors: 0
+      viewpoint_bias: { person: "3rd", tense: "present", distance: "close" }
+      attention_ops: { center_shift: "hold" }
+      ban_tokens: ["blood", "gore", "neon", "خون", "نئون"]
+
+  - name: settle
+    order: 6
+    goal: "leave a quiet after‑image; no new metaphors"
+    min_chars: 25
+    max_chars: 100
+    expectation_target: 1.00
+    constraints:
+      allow_schemas: [center_periphery, boundary, cycle]
+      disallow_schemas: []
+      allow_metaphors: []
+      disallow_metaphors: [raw_cooked, light_dark, life_is_travel, time_is_motion]
+      max_new_metaphors: 0
+      viewpoint_bias: { person: "3rd", tense: "present", distance: "far" }
+      attention_ops: { center_shift: "down" }
+      ban_tokens: ["blood", "gore", "neon", "خون", "نئون"]
