@@ -1,0 +1,51 @@
+# P12 SFX Prompt Template v1
+
+# Fill with short, declarative fragments. No chain-of-thought.
+
+[AUDIO]:
+
+# Ambience/foley/music cues only; e.g., room tone, soft hush; rapid footfalls, rising air
+
+[NEGATIVE]:
+
+# Comma-separated bans (e.g., gore, explicit, PII, brand names)
+
+[INTENSITY]:
+
+# low | medium | high (overall SFX energy)
+
+[FOCUS]:
+
+# diegetic | non-diegetic | mixed
+
+[TIMBRE]:
+
+# e.g., warm tape hiss; brittle fluorescent buzz; soft cloth rustle
+
+[DYNAMICS]:
+
+# e.g., steady bed; subtle swells; one sharp accent at cut
+
+[SPATIAL]:
+
+# e.g., narrow interior; long corridor reverb; exterior wide air
+
+[MIX_NOTE]:
+
+# ≤ 16 words; simple mixer note (e.g., duck on transition)
+
+[DURATION]:
+
+# Seconds (5 or 10)
+
+[TRANSITION_IN]:
+
+# cut | dissolve | match-cut | hard cut | whip
+
+[TRANSITION_OUT]:
+
+# cut | dissolve | match-cut | hard cut | whip
+
+[SAFETY]:
+
+# comma-separated safety tags, e.g., no-violence, no-explicit, no-PII

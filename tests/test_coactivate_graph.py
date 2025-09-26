@@ -5,7 +5,6 @@ from sv_sdk.loader import load_schema_bank
 
 client = TestClient(app)
 
-
 def test_coactivate_targets_exist() -> None:
     bank = load_schema_bank()
     schema_ids = {schema.id for schema in bank.schemas}

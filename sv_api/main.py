@@ -41,6 +41,7 @@ from .routers import (
     gold,
     health,
     lexicon,
+    p12,
     retrieval,
     status,
 )
@@ -158,6 +159,7 @@ app.include_router(framecheck.router)
 app.include_router(generate.router)
 app.include_router(gold.router)
 app.include_router(lexicon.router)
+app.include_router(p12.router)
 app.include_router(retrieval.router)
 app.include_router(status.router)
 

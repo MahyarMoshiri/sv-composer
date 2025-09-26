@@ -61,6 +61,10 @@ pytest -q --cov
 - **P10 — SDK & API**: [docs/p10-sdk-api.md](docs/p10-sdk-api.md)
 - **P11 — LLM Harness & Integration**: [docs/p11-llm-harness.md](docs/p11-llm-harness.md)
 
+## Modules
+
+- **P1 — Image-Schema Bank**: [docs/p1-image-schemas.md](docs/p1-image-schemas.md)
+
 ## Dev
 ```bash
 poetry run pre-commit install

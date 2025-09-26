@@ -1,0 +1,22 @@
+{
+"scene_seed": "{{scene_seed}}",
+"beat": "{{beat}}",
+"intent": "{{intent}}",
+"frame_id": "{{frame_id}}",
+"viewpoint": {
+"person": "{{view_person}}",
+"distance": "{{view_distance}}",
+"motive_state": "{{view_motive}}"
+},
+"active_schemas": {{active_schemas_json}},
+"active_metaphors": {{active_metaphors_json}},
+"tokens_must": {{tokens_must_json}},
+"tokens_ban": {{tokens_ban_json}},
+"expectation_delta": {{expectation_delta}},
+"tension_poles": {{tension_poles_json}},
+"duration_sec": {{duration_sec}},
+"aspect_ratio": "{{aspect_ratio}}",
+"style_pack": "{{style_pack}}",
+"previous_scene_out": "{{prev_out_transition}}",
+"next_scene_in": "{{next_in_transition}}"
+}

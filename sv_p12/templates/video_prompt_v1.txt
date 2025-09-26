@@ -1,0 +1,59 @@
+# P12 Video Prompt Template v1
+
+# Fill each field with short, declarative fragments. No chain-of-thought.
+
+[CONTENT]:
+
+# On-screen visuals only; concrete nouns/verbs; no figuratives.
+
+[NEGATIVE]:
+
+# Comma-separated bans (global + per-beat bans, deduped).
+
+[CAMERA]:
+
+# e.g., slow push-in from doorway; fast lateral track
+
+[LIGHTING]:
+
+# e.g., low-key dusk, soft rim; chiaroscuro pools
+
+[COLOR]:
+
+# e.g., muted cools with warm edge glow; cool neutrals, warm blowout
+
+[FRAMING]:
+
+# e.g., medium-wide from threshold; close profile; wide corridor
+
+[MOVEMENT]:
+
+# e.g., dolly-in on axis; tracking along axis; static locked-off
+
+[MOTION]:
+
+# e.g., gentle curtain flutter; runner silhouette resolves
+
+[ASPECT]:
+
+# 16:9 | 9:16 | 1:1
+
+[DURATION]:
+
+# Seconds (5 or 10)
+
+[TRANSITION_IN]:
+
+# cut | dissolve | match-cut | hard cut | whip
+
+[TRANSITION_OUT]:
+
+# cut | dissolve | match-cut | hard cut | whip
+
+[SAFETY]:
+
+# comma-separated safety tags, e.g., no-violence, no-explicit, no-PII
+
+[NOTES]:
+
+# optional; ≤ 16 words
